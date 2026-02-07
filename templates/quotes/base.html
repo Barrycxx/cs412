@@ -15,10 +15,11 @@
 
     <div class="layout">
       <nav class="nav">
-        <a href="/">Quote of the Day</a>
-        <a href="/show_all/">Show All</a>
-        <a href="/about/">About</a>
-      </nav>
+  <a href="{% url 'home' %}">Quote of the Day</a>
+  <a href="{% url 'show_all' %}">Show All</a>
+  <a href="{% url 'about' %}">About</a>
+</nav>
+
 
       <main class="content">
         {% block content %}{% endblock %}
