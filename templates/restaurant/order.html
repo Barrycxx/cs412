@@ -3,7 +3,7 @@
 {% block content %}
   <h2>Place an Order</h2>
 
-  <form method="post" action="/restaurant/confirmation/">
+  <form method="post" action="{% url 'confirmation' %}">
     {% csrf_token %}
 
     <h3>Menu</h3>
