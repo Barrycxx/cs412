@@ -1,0 +1,79 @@
+{% extends "restaurant/base.html" %}
+
+{% block content %}
+  <h2>Place an Order</h2>
+
+  <form method="post" action="/restaurant/confirmation/">
+    {% csrf_token %}
+
+    <h3>Menu</h3>
+
+    <label>
+      <input type="checkbox" name="items" value="dongpo_pork">
+      Dongpo Pork (Red-braised pork belly) — $18
+    </label>
+    <br>
+
+    <label>
+      <input type="checkbox" name="items" value="mapo_tofu">
+      Mapo Tofu — $14
+    </label>
+    <br>
+
+    <label>
+      <input type="checkbox" name="items" value="kungpao_chicken">
+      Kung Pao Chicken — $16
+    </label>
+    <br>
+
+    <label>
+      <input type="checkbox" name="items" value="fried_rice">
+      Yangzhou Fried Rice — $9
+    </label>
+    <br><br>
+
+    <h3>Options (choose one)</h3>
+    <label for="spice_level">Spice level (for Mapo Tofu)</label><br>
+    <select id="spice_level" name="spice_level">
+      <option value="mild">Mild</option>
+      <option value="medium" selected>Medium</option>
+      <option value="hot">Hot</option>
+    </select>
+
+    <br><br>
+
+    <h3>Daily Special</h3>
+    <label>
+      <input type="checkbox" name="items" value="daily_special">
+      {{ daily_special }} — $19
+    </label>
+    <input type="hidden" name="daily_special_name" value="{{ daily_special }}">
+
+    <br><br>
+
+    <h3>Special Instructions</h3>
+    <textarea name="special_instructions" rows="4" cols="50"
+      placeholder="e.g., no peanuts, extra scallions, sauce on the side"></textarea>
+
+    <br><br>
+
+    <h3>Customer Info</h3>
+    <label>
+      Name:
+      <input type="text" name="customer_name" required>
+    </label>
+    <br>
+    <label>
+      Phone:
+      <input type="text" name="customer_phone" required>
+    </label>
+    <br>
+    <label>
+      Email:
+      <input type="email" name="customer_email" required>
+    </label>
+
+    <br><br>
+    <button type="submit">Submit Order</button>
+  </form>
+{% endblock %}

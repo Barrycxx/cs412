@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Restaurant{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'restaurant/style.css' %}">
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1>Meizhou Dongpo</h1>
+    </header>
+
+    <div class="layout">
+      <nav class="nav">
+        <a href="/restaurant/main/">Main Page</a>
+        <a href="/restaurant/order/">Order Page</a>
+      </nav>
+
+      <main class="content">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{% extends "restaurant/base.html" %}
+
+{% block content %}
+
+<h2>Confirmation</h2>
+
+<h3>Ordered Items</h3>
+
+{% if ordered_items %}
+  <ul>
+    {% for item in ordered_items %}
+      <li>
+        {{ item.name }} — ${{ item.price }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No items were selected.</p>
+{% endif %}
+
+<h3>Total Price</h3>
+<p><strong>${{ total }}</strong></p>
+
+<h3>Order Ready Time</h3>
+<p>Your order will be ready at: <strong>{{ ready_time }}</strong></p>
+
+<hr>
+
+<h3>Customer Information</h3>
+<p><strong>Name:</strong> {{ customer_name }}</p>
+<p><strong>Phone:</strong> {{ customer_phone }}</p>
+<p><strong>Email:</strong> {{ customer_email }}</p>
+
+<h3>Spice Level</h3>
+<p>{{ spice_level }}</p>
+
+<h3>Special Instructions</h3>
+{% if special_instructions %}
+  <p>{{ special_instructions }}</p>
+{% else %}
+  <p>(None)</p>
+{% endif %}
+
+{% endblock %}
