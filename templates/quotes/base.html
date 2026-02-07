@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ person_name }} Quote of the Day</title>
+  <link rel="stylesheet" href="{% static 'quotes/style.css' %}">
+</head>
+<body>
+  <div class="page">
+    <header class="header">
+      <h1>{{ person_name }} Quote of the Day</h1>
+    </header>
+
+    <div class="layout">
+      <nav class="nav">
+        <a href="/">Quote of the Day</a>
+        <a href="/show_all/">Show All</a>
+        <a href="/about/">About</a>
+      </nav>
+
+      <main class="content">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+
+    <footer class="footer">
+      <div>Page created by {{ creator|default:"chenxin@bu.edu" }}</div>
+      <div>Generated at {{ generated_at }}</div>
+    </footer>
+  </div>
+</body>
+</html>
