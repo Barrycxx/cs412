@@ -1,0 +1,100 @@
+<!--
+mini_insta/templates/mini_insta/show_profile.html
+Xinxu Chen (chenxin@bu.edu)
+
+Displays a single profile page.
+-->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<div class="profile-header">
+  <img src="{{ profile.profile_image_url }}" class="profile-avatar" alt="profile avatar">
+
+  <div class="profile-meta">
+    <h1>{{ profile.display_name }}</h1>
+    <div class="handle">@{{ profile.username }}</div>
+
+    <div class="stats">
+      <div><strong>TBD</strong> posts</div>
+      <div><strong>TBD</strong> followers</div>
+      <div><strong>TBD</strong> following</div>
+    </div>
+
+    <div class="bio">
+      <h3>Bio</h3>
+      <p>{{ profile.bio_text }}</p>
+
+      <h3>Join Date</h3>
+      <p>{{ profile.join_date }}</p>
+    </div>
+
+    <a class="back-link" href="{% url 'mini_insta:show_all_profiles' %}">
+      ← Back to all profiles
+    </a>
+  </div>
+</div>
+
+<style>
+.profile-header {
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+  margin-top: 18px;
+}
+
+.profile-avatar {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #eee;
+  background: white;
+}
+
+.profile-meta h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.handle {
+  margin-top: 6px;
+  color: #8e8e8e;
+  font-size: 16px;
+}
+
+/* stats */
+.stats {
+  display: flex;
+  gap: 40px;
+  margin: 18px 0 18px 0;
+  font-size: 16px;
+}
+
+.stats div {
+  color: #262626;
+}
+
+/* bio */
+.bio h3 {
+  margin: 12px 0 6px 0;
+}
+
+.bio p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* return */
+.back-link {
+  display: inline-block;
+  margin-top: 22px;
+  text-decoration: none;
+  color: #0095f6;
+  font-weight: 600;
+}
+</style>
+
+{% endblock %}

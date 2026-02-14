@@ -1,0 +1,80 @@
+<!--
+mini_insta/templates/mini_insta/base.html
+Xinxu Chen (chenxin@bu.edu)
+
+Base template used by all pages in mini_insta.
+Provides header navigation and footer.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini Insta</title>
+
+    <style>
+       body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, Helvetica, Arial, sans-serif;
+    background-color: #fafafa;
+}
+
+        /* top navigation bar */
+        .navbar {
+    background-color: white;
+    border-bottom: 1px solid #dbdbdb;
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.navbar a:first-child {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #262626;
+    font-size: 16px;
+}
+
+
+        .container {
+            padding: 25px;
+            min-height: 80vh;
+        }
+
+        /* footer */
+        .footer {
+            text-align: center;
+            padding: 18px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            background: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top bar -->
+    <div class="navbar">
+        <a href="{% url 'mini_insta:show_all_profiles' %}">Mini Insta</a>
+        <a href="{% url 'mini_insta:show_all_profiles' %}">All Profiles</a>
+    </div>
+
+    <!-- Page content -->
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        Page created by chenxin@bu.edu.
+    </div>
+
+</body>
+</html>
