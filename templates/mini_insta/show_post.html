@@ -1,0 +1,44 @@
+<!--
+mini_insta/templates/mini_insta/show_post.html
+Xinxu Chen (chenxin@bu.edu)
+
+Displays one Post and all Photos for that post.
+-->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-top: 6px;">Post Detail</h2>
+
+<div style="background: white; border: 1px solid #e6e6e6; border-radius: 12px; padding: 16px; margin-top: 14px;">
+  <div style="color: #666; margin-bottom: 8px;">
+    <strong>@{{ post.profile.username }}</strong> · {{ post.timestamp }}
+  </div>
+
+  <div style="margin-bottom: 14px;">
+    <strong>Caption:</strong>
+    <div style="margin-top: 6px;">{{ post.caption }}</div>
+  </div>
+
+  <div style="margin-top: 14px;">
+    <strong>Photos:</strong>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px;">
+      {% for photo in post.get_all_photos %}
+        <img src="{{ photo.image_url }}" alt="photo"
+             style="max-width: 260px; border-radius: 10px; border: 1px solid #ddd;">
+      {% empty %}
+        <p>No photos for this post.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div style="margin-top: 18px;">
+    <a href="{% url 'mini_insta:show_profile' post.profile.pk %}"
+       style="text-decoration: none; color: #0095f6; font-weight: 600;">
+      ← Back to profile
+    </a>
+  </div>
+</div>
+
+{% endblock %}

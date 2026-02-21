@@ -2,8 +2,7 @@
 mini_insta/templates/mini_insta/base.html
 Xinxu Chen (chenxin@bu.edu)
 
-Base template used by all pages in mini_insta.
-Provides header navigation and footer.
+Base template for mini_insta pages.
 -->
 
 <!DOCTYPE html>
@@ -12,34 +11,33 @@ Provides header navigation and footer.
     <title>Mini Insta</title>
 
     <style>
-       body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-                 Roboto, Helvetica, Arial, sans-serif;
-    background-color: #fafafa;
-}
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         Roboto, Helvetica, Arial, sans-serif;
+            background-color: #fafafa;
+        }
 
         /* top navigation bar */
         .navbar {
-    background-color: white;
-    border-bottom: 1px solid #dbdbdb;
-    padding: 16px 40px;
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
+            background-color: white;
+            border-bottom: 1px solid #dbdbdb;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
 
-.navbar a:first-child {
-    font-size: 24px;
-    font-weight: 600;
-}
+        .navbar a:first-child {
+            font-size: 24px;
+            font-weight: 600;
+        }
 
-.navbar a {
-    text-decoration: none;
-    color: #262626;
-    font-size: 16px;
-}
-
+        .navbar a {
+            text-decoration: none;
+            color: #262626;
+            font-size: 16px;
+        }
 
         .container {
             padding: 25px;
@@ -54,26 +52,46 @@ Provides header navigation and footer.
             border-top: 1px solid #ddd;
             background: white;
         }
+
+        .bottom-nav {
+            margin-top: 8px;
+        }
+
+        .bottom-nav a {
+            display: inline-block;
+            margin: 0 10px;
+            text-decoration: none;
+            color: #262626;
+            font-weight: 600;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- Top bar -->
     <div class="navbar">
         <a href="{% url 'mini_insta:show_all_profiles' %}">Mini Insta</a>
         <a href="{% url 'mini_insta:show_all_profiles' %}">All Profiles</a>
     </div>
 
-    <!-- Page content -->
     <div class="container">
         {% block content %}
         {% endblock %}
     </div>
 
-    <!-- Footer -->
     <div class="footer">
-        Page created by chenxin@bu.edu.
+        <div class="bottom-nav">
+            <a href="{% url 'mini_insta:show_all_profiles' %}">All Profiles</a>
+
+            {# Only show Create Post if a profile is available in the context #}
+            {% if profile %}
+                <a href="{% url 'mini_insta:create_post' profile.pk %}">+ Create Post</a>
+            {% endif %}
+        </div>
+
+        <div style="margin-top: 6px;">
+            Page created by chenxin@bu.edu.
+        </div>
     </div>
 
 </body>

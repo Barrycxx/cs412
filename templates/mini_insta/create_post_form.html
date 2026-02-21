@@ -1,0 +1,45 @@
+<!--
+mini_insta/templates/mini_insta/create_post_form.html
+Xinxu Chen (chenxin@bu.edu)
+
+Form page to create a Post for one Profile.
+-->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-top: 6px;">@{{ profile.username }}: Create a Post</h2>
+
+<form method="POST" action="{% url 'mini_insta:create_post' profile.pk %}" style="margin-top: 18px;">
+  {% csrf_token %}
+
+  <div style="margin-bottom: 14px;">
+    <label for="id_caption"><strong>Caption:</strong></label><br>
+    {{ form.caption }}
+  </div>
+
+  <div style="margin-bottom: 18px;">
+    <label for="id_image_url"><strong>Image URL:</strong></label><br>
+    <input
+      type="url"
+      name="image_url"
+      id="id_image_url"
+      placeholder="https://..."
+      style="width: 90%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;"
+      required
+    >
+  </div>
+
+  <button type="submit"
+          style="padding: 10px 18px; border: 0; border-radius: 10px; background: #b85cff; color: white; font-weight: 600;">
+    Post
+  </button>
+
+  <a href="{% url 'mini_insta:show_profile' profile.pk %}"
+     style="margin-left: 12px; text-decoration: none; color: #0095f6; font-weight: 600;">
+    Cancel
+  </a>
+</form>
+
+{% endblock %}
