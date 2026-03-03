@@ -1,0 +1,93 @@
+<!--
+mini_insta/templates/mini_insta/search_results.html
+Xinxu Chen (chenxin@bu.edu)
+
+Displays search results for profiles and posts.
+-->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-top: 6px;">Search Results</h2>
+
+<!-- Search box (kept on results page so user can search again) -->
+<form method="GET"
+      action="{% url 'mini_insta:search' profile.pk %}"
+      style="margin: 18px 0 24px 0;">
+
+  <input type="text"
+         name="query"
+         value="{{ query }}"
+         placeholder="Search profiles or posts"
+         style="width: 70%; padding: 10px; border-radius: 10px; border: 1px solid #ddd;">
+
+  <button type="submit"
+          style="padding: 10px 16px; border: 0; border-radius: 10px; background: #0095f6; color: white; font-weight: 600;">
+    Search
+  </button>
+
+</form>
+
+<hr style="margin-bottom: 26px;">
+
+<!-- Profiles results -->
+<h3>Profiles</h3>
+
+{% if profiles %}
+  <ul style="margin-bottom: 28px;">
+    {% for p in profiles %}
+      <li style="margin-bottom: 6px;">
+        <a href="{% url 'mini_insta:show_profile' p.pk %}">
+          {{ p.display_name }} (@{{ p.username }})
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No matching profiles.</p>
+{% endif %}
+
+<hr style="margin: 26px 0;">
+
+<!-- Posts results -->
+<h3>Posts</h3>
+
+{% if posts %}
+  {% for post in posts %}
+    <div style="margin-bottom: 26px; padding-bottom: 16px; border-bottom: 1px solid #eee;">
+
+      <p style="margin-bottom: 6px;">
+        <a href="{% url 'mini_insta:show_profile' post.profile.pk %}">
+          <strong>@{{ post.profile.username }}</strong>
+        </a>
+      </p>
+
+      {% with photos=post.get_all_photos %}
+        {% if photos %}
+          <img src="{{ photos.0.get_image_url }}"
+               style="max-width: 320px; border-radius: 10px; margin-bottom: 10px;">
+        {% endif %}
+      {% endwith %}
+
+      <p style="margin: 6px 0;">{{ post.caption }}</p>
+
+      <p style="color:#666; font-size:14px;">
+        {{ post.get_all_likes|length }} likes
+      </p>
+
+      <!-- comments -->
+      {% for c in post.get_all_comments %}
+        <p style="font-size:14px;">
+          <strong>{{ c.profile.username }}</strong>: {{ c.text }}
+        </p>
+      {% endfor %}
+
+    </div>
+  {% endfor %}
+
+{% else %}
+  <p>No matching posts.</p>
+{% endif %}
+
+{% endblock %}

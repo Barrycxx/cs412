@@ -1,0 +1,40 @@
+<!--
+mini_insta/templates/mini_insta/delete_post_form.html
+Xinxu Chen (chenxin@bu.edu)
+
+Confirm delete Post page.
+-->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-top: 6px;">Delete Post</h2>
+
+<div style="background: white; border: 1px solid #e6e6e6; border-radius: 12px; padding: 16px; margin-top: 14px;">
+  <p>Are you sure you want to delete this post?</p>
+
+  <div style="margin-top: 10px; color: #666;">
+    <strong>@{{ post.profile.username }}</strong> · {{ post.timestamp }}
+  </div>
+
+  <div style="margin-top: 10px;">
+    <strong>Caption:</strong>
+    <div style="margin-top: 6px;">{{ post.caption }}</div>
+  </div>
+
+  <form method="POST" style="margin-top: 16px;">
+    {% csrf_token %}
+    <button type="submit"
+            style="padding: 10px 18px; border: 0; border-radius: 10px; background: #ed4956; color: white; font-weight: 700;">
+      Delete
+    </button>
+
+    <a href="{% url 'mini_insta:show_profile' profile.pk %}"
+       style="margin-left: 12px; text-decoration: none; color: #0095f6; font-weight: 600;">
+      Cancel
+    </a>
+  </form>
+</div>
+
+{% endblock %}

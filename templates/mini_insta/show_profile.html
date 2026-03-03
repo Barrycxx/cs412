@@ -18,8 +18,18 @@ Displays a single profile page, including that profile's Posts.
 
     <div class="stats">
       <div><strong>{{ profile.get_all_posts|length }}</strong> posts</div>
-      <div><strong>TBD</strong> followers</div>
-      <div><strong>TBD</strong> following</div>
+
+      <div>
+        <a href="{% url 'mini_insta:show_followers' profile.pk %}" style="text-decoration:none; color:#262626;">
+          <strong>{{ profile.get_num_followers }}</strong> followers
+        </a>
+      </div>
+
+      <div>
+        <a href="{% url 'mini_insta:show_following' profile.pk %}" style="text-decoration:none; color:#262626;">
+          <strong>{{ profile.get_num_following }}</strong> following
+        </a>
+      </div>
     </div>
 
     <div class="bio">
@@ -33,6 +43,13 @@ Displays a single profile page, including that profile's Posts.
     <a class="back-link" href="{% url 'mini_insta:show_all_profiles' %}">
       ← Back to all profiles
     </a>
+
+    <div style="margin-top: 12px;">
+      <a href="{% url 'mini_insta:show_feed' profile.pk %}"
+         style="text-decoration:none; color:#0095f6; font-weight:600;">
+        View Feed →
+      </a>
+    </div>
   </div>
 </div>
 
@@ -41,7 +58,6 @@ Displays a single profile page, including that profile's Posts.
 <div class="posts-header">
   <h2 style="margin: 0;">Posts</h2>
 
-  
   <a class="create-post-link" href="{% url 'mini_insta:create_post' profile.pk %}">
     + Create Post
   </a>
@@ -60,7 +76,7 @@ Displays a single profile page, including that profile's Posts.
 
       {% with photos=post.get_all_photos %}
         {% if photos %}
-          <img src="{{ photos.0.image_url }}" class="post-image" alt="post image">
+          <img src="{{ photos.0.get_image_url }}" class="post-image" alt="post image">
         {% else %}
           <img src="https://via.placeholder.com/600x400?text=No+Image" class="post-image" alt="no image">
         {% endif %}

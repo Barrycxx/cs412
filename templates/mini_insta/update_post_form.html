@@ -1,0 +1,33 @@
+<!--
+mini_insta/templates/mini_insta/update_post_form.html
+Xinxu Chen (chenxin@bu.edu)
+
+Update Post caption page.
+-->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-top: 6px;">Update Post</h2>
+
+<form method="POST" style="margin-top: 18px;">
+  {% csrf_token %}
+
+  <div style="margin-bottom: 14px;">
+    <label for="id_caption"><strong>Caption:</strong></label><br>
+    {{ form.caption }}
+  </div>
+
+  <button type="submit"
+          style="padding: 10px 18px; border: 0; border-radius: 10px; background: #b85cff; color: white; font-weight: 600;">
+    Update
+  </button>
+
+  <a href="{% url 'mini_insta:show_post' post.pk %}"
+     style="margin-left: 12px; text-decoration: none; color: #0095f6; font-weight: 600;">
+    Cancel
+  </a>
+</form>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+<!--
+mini_insta/templates/mini_insta/search.html
+Xinxu Chen (chenxin@bu.edu)
+
+Search form page.
+-->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-top: 6px;">Search</h2>
+
+<form method="GET" action="{% url 'mini_insta:search' profile.pk %}" style="margin-top: 18px;">
+  <div style="margin-bottom: 14px;">
+    <label for="id_query"><strong>Query:</strong></label><br>
+    <input type="text" name="query" id="id_query"
+           style="width: 90%; padding: 10px; border: 1px solid #ddd; border-radius: 10px;">
+  </div>
+
+  <button type="submit"
+          style="padding: 10px 18px; border: 0; border-radius: 10px; background: #0095f6; color: white; font-weight: 600;">
+    Search
+  </button>
+</form>
+
+{% endblock %}

@@ -11,7 +11,10 @@ Form page to create a Post for one Profile.
 
 <h2 style="margin-top: 6px;">@{{ profile.username }}: Create a Post</h2>
 
-<form method="POST" action="{% url 'mini_insta:create_post' profile.pk %}" style="margin-top: 18px;">
+<form method="POST"
+      action="{% url 'mini_insta:create_post' profile.pk %}"
+      enctype="multipart/form-data"
+      style="margin-top: 18px;">
   {% csrf_token %}
 
   <div style="margin-bottom: 14px;">
@@ -20,14 +23,15 @@ Form page to create a Post for one Profile.
   </div>
 
   <div style="margin-bottom: 18px;">
-    <label for="id_image_url"><strong>Image URL:</strong></label><br>
+    <label for="id_files"><strong>Upload Photos:</strong></label><br>
     <input
-      type="url"
-      name="image_url"
-      id="id_image_url"
-      placeholder="https://..."
-      style="width: 90%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;"
+      type="file"
+      name="files"
+      id="id_files"
+      accept="image/*"
+      multiple
       required
+      style="width: 90%; padding: 10px;"
     >
   </div>
 

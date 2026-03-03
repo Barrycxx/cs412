@@ -1,0 +1,31 @@
+<!--
+mini_insta/templates/mini_insta/show_followers.html
+Xinxu Chen (chenxin@bu.edu)
+
+Shows followers for a profile.
+-->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-top: 6px;">Followers of @{{ profile.username }}</h2>
+
+<div style="margin-top: 14px;">
+  {% for p in profile.get_followers %}
+    <div style="background:white; border:1px solid #eee; border-radius:12px; padding:12px; margin-bottom:12px;">
+      <a href="{% url 'mini_insta:show_profile' p.pk %}" style="text-decoration:none; color:#262626; font-weight:600;">
+        {{ p.display_name }} (@{{ p.username }})
+      </a>
+    </div>
+  {% empty %}
+    <p>No followers yet.</p>
+  {% endfor %}
+</div>
+
+<a href="{% url 'mini_insta:show_profile' profile.pk %}"
+   style="text-decoration:none; color:#0095f6; font-weight:600;">
+  ← Back to profile
+</a>
+
+{% endblock %}

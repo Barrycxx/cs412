@@ -16,6 +16,10 @@ Displays one Post and all Photos for that post.
     <strong>@{{ post.profile.username }}</strong> · {{ post.timestamp }}
   </div>
 
+  <div style="margin-bottom: 10px;">
+    <strong>{{ post.get_num_likes }}</strong> likes
+  </div>
+
   <div style="margin-bottom: 14px;">
     <strong>Caption:</strong>
     <div style="margin-top: 6px;">{{ post.caption }}</div>
@@ -25,7 +29,7 @@ Displays one Post and all Photos for that post.
     <strong>Photos:</strong>
     <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px;">
       {% for photo in post.get_all_photos %}
-        <img src="{{ photo.image_url }}" alt="photo"
+        <img src="{{ photo.get_image_url }}" alt="photo"
              style="max-width: 260px; border-radius: 10px; border: 1px solid #ddd;">
       {% empty %}
         <p>No photos for this post.</p>
@@ -34,9 +38,36 @@ Displays one Post and all Photos for that post.
   </div>
 
   <div style="margin-top: 18px;">
+    <strong>Comments:</strong>
+
+    <div style="margin-top: 10px;">
+      {% for c in post.get_all_comments %}
+        <div style="padding: 10px; border: 1px solid #eee; border-radius: 10px; margin-bottom: 10px;">
+          <div style="color:#666; font-size: 13px;">
+            <strong>@{{ c.profile.username }}</strong> · {{ c.timestamp }}
+          </div>
+          <div style="margin-top: 6px;">{{ c.text }}</div>
+        </div>
+      {% empty %}
+        <p>No comments yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div style="margin-top: 18px;">
     <a href="{% url 'mini_insta:show_profile' post.profile.pk %}"
        style="text-decoration: none; color: #0095f6; font-weight: 600;">
       ← Back to profile
+    </a>
+
+    <a href="{% url 'mini_insta:update_post' post.pk %}"
+       style="margin-left: 14px; text-decoration: none; color: #0095f6; font-weight: 600;">
+      Update
+    </a>
+
+    <a href="{% url 'mini_insta:delete_post' post.pk %}"
+       style="margin-left: 14px; text-decoration: none; color: #ed4956; font-weight: 700;">
+      Delete
     </a>
   </div>
 </div>
