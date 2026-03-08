@@ -18,7 +18,12 @@ Login page.
     {{ form.as_p }}
   </div>
 
-  <input type="hidden" name="next" value="{{ request.GET.next|default:'/mini_insta/' }}">
+  <input type="hidden" name="next" value="{{ request.GET.next|default:'' }}">
+
+  {% if not request.GET.next %}
+    <input type="hidden" name="next" value="{% url 'mini_insta:show_all_profiles' %}">
+  {% endif %}
+
   <button type="submit"
           style="padding: 10px 18px; border: 0; border-radius: 10px; background: #0095f6; color: white; font-weight: 600;">
     Login
