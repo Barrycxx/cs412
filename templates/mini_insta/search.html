@@ -11,8 +11,7 @@ Search form page.
 
 <h2 style="margin-top: 6px;">Search</h2>
 
-<form method="GET" action="{% url 'mini_insta:search' profile.pk %}" style="margin-top: 18px;">
-  <div style="margin-bottom: 14px;">
+<form method="GET" action="{% url 'mini_insta:search' %}" style="margin-top: 18px;">
     <label for="id_query"><strong>Query:</strong></label><br>
     <input type="text" name="query" id="id_query"
            style="width: 90%; padding: 10px; border: 1px solid #ddd; border-radius: 10px;">

@@ -40,16 +40,43 @@ Displays a single profile page, including that profile's Posts.
       <p>{{ profile.join_date }}</p>
     </div>
 
+    {% if user.is_authenticated and is_own_profile %}
+      <div style="margin-top: 12px;">
+        <a href="{% url 'mini_insta:update_profile' %}"
+           style="text-decoration:none; color:#0095f6; font-weight:600;">
+          Edit Profile
+        </a>
+      </div>
+    {% endif %}
+
+    {% if user.is_authenticated and not is_own_profile %}
+      <div style="margin-top: 12px;">
+        {% if already_following %}
+          <a href="{% url 'mini_insta:delete_follow' profile.pk %}"
+             style="text-decoration:none; color:#ed4956; font-weight:600;">
+            Unfollow
+          </a>
+        {% else %}
+          <a href="{% url 'mini_insta:follow_profile' profile.pk %}"
+             style="text-decoration:none; color:#0095f6; font-weight:600;">
+            Follow
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+
     <a class="back-link" href="{% url 'mini_insta:show_all_profiles' %}">
       ← Back to all profiles
     </a>
 
-    <div style="margin-top: 12px;">
-      <a href="{% url 'mini_insta:show_feed' profile.pk %}"
-         style="text-decoration:none; color:#0095f6; font-weight:600;">
-        View Feed →
-      </a>
-    </div>
+    {% if user.is_authenticated and is_own_profile %}
+      <div style="margin-top: 12px;">
+        <a href="{% url 'mini_insta:show_feed' %}"
+           style="text-decoration:none; color:#0095f6; font-weight:600;">
+          View Feed →
+        </a>
+      </div>
+    {% endif %}
   </div>
 </div>
 
@@ -58,9 +85,11 @@ Displays a single profile page, including that profile's Posts.
 <div class="posts-header">
   <h2 style="margin: 0;">Posts</h2>
 
-  <a class="create-post-link" href="{% url 'mini_insta:create_post' profile.pk %}">
-    + Create Post
-  </a>
+  {% if user.is_authenticated and is_own_profile %}
+    <a class="create-post-link" href="{% url 'mini_insta:create_post' %}">
+      + Create Post
+    </a>
+  {% endif %}
 </div>
 
 <div class="post-grid">
@@ -120,7 +149,6 @@ Displays a single profile page, including that profile's Posts.
   font-size: 16px;
 }
 
-/* stats */
 .stats {
   display: flex;
   gap: 40px;
@@ -132,7 +160,6 @@ Displays a single profile page, including that profile's Posts.
   color: #262626;
 }
 
-/* bio */
 .bio h3 {
   margin: 12px 0 6px 0;
 }
@@ -142,7 +169,6 @@ Displays a single profile page, including that profile's Posts.
   line-height: 1.6;
 }
 
-/* return */
 .back-link {
   display: inline-block;
   margin-top: 22px;
@@ -151,7 +177,6 @@ Displays a single profile page, including that profile's Posts.
   font-weight: 600;
 }
 
-/* posts section */
 .posts-header {
   display: flex;
   align-items: center;

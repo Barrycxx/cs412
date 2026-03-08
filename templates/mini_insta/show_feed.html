@@ -34,6 +34,22 @@ Shows a post feed for a profile (posts from following).
         <strong>{{ post.get_num_likes }}</strong> likes
       </div>
 
+     {% if user.is_authenticated and logged_in_profile != post.profile %}
+  <div style="margin-top:8px;">
+    {% if post.pk in liked_post_ids %}
+      <a href="{% url 'mini_insta:delete_like' post.pk %}"
+         style="text-decoration:none; color:#ed4956; font-weight:600;">
+        Unlike
+      </a>
+    {% else %}
+      <a href="{% url 'mini_insta:like_post' post.pk %}"
+         style="text-decoration:none; color:#0095f6; font-weight:600;">
+        Like
+      </a>
+    {% endif %}
+  </div>
+{% endif %}
+
       <div style="margin-top:10px;">
         <strong>Caption:</strong>
         <div style="margin-top:6px;">{{ post.caption }}</div>
@@ -63,11 +79,11 @@ Shows a post feed for a profile (posts from following).
       </div>
     </div>
   {% empty %}
-    <p>No posts in feed. Add some Follow relationships in admin.</p>
+    <p>No posts in feed yet.</p>
   {% endfor %}
 </div>
 
-<a href="{% url 'mini_insta:show_profile' profile.pk %}"
+<a href="{% url 'mini_insta:profile' %}"
    style="text-decoration:none; color:#0095f6; font-weight:600;">
   ← Back to profile
 </a>

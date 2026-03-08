@@ -9,6 +9,7 @@ models for Assignment 4 (Part 2).
 
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
@@ -16,12 +17,15 @@ class Profile(models.Model):
     Represents a user profile for the mini_insta app.
 
     Fields:
+        user: Django user associated with this profile.
         username: short unique handle for the user.
         display_name: the name to show on pages.
         profile_image_url: URL to the user's profile image.
         bio_text: short bio text shown on the profile.
         join_date: date the user joined.
     """
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     username = models.CharField(max_length=50, unique=True)
     display_name = models.CharField(max_length=100)
@@ -38,9 +42,6 @@ class Profile(models.Model):
     def get_all_posts(self):
         """
         Returns all Post objects for this Profile, ordered by timestamp (newest first).
-
-        Returns:
-            QuerySet[Post]: all posts for this profile.
         """
         return Post.objects.filter(profile=self).order_by("-timestamp")
 
@@ -50,7 +51,6 @@ class Profile(models.Model):
         """
         return f"/mini_insta/profile/{self.pk}/"
 
-    # -------- Task 4: Follow accessors --------
     def get_followers(self):
         """
         Returns a list of Profile objects who follow this profile.
@@ -77,7 +77,6 @@ class Profile(models.Model):
         """
         return Follow.objects.filter(follower_profile=self).count()
 
-    # -------- Task 5: Feed accessor --------
     def get_post_feed(self):
         """
         Returns Posts for profiles this user is following, newest first.
@@ -85,15 +84,19 @@ class Profile(models.Model):
         following_profiles = self.get_following()
         return Post.objects.filter(profile__in=following_profiles).order_by("-timestamp")
 
+    def is_following(self, other_profile):
+        """
+        Returns True if this profile already follows the other profile.
+        """
+        return Follow.objects.filter(
+            profile=other_profile,
+            follower_profile=self
+        ).exists()
+
 
 class Post(models.Model):
     """
     Represents an Instagram-style post created by a Profile.
-
-    Fields:
-        profile: foreign key to the Profile who created the post.
-        timestamp: time the post was created/saved.
-        caption: optional text associated with the post.
     """
 
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -109,13 +112,9 @@ class Post(models.Model):
     def get_all_photos(self):
         """
         Returns all Photo objects for this Post, ordered by timestamp (newest first).
-
-        Returns:
-            QuerySet[Photo]: all photos for this post.
         """
         return Photo.objects.filter(post=self).order_by("-timestamp")
 
-    # -------- Task 4: Comments + Likes accessors --------
     def get_all_comments(self):
         """
         Returns all comments for this post (oldest first).
@@ -134,26 +133,21 @@ class Post(models.Model):
         """
         return Like.objects.filter(post=self).count()
 
+    def is_liked_by(self, profile):
+        """
+        Returns True if the given profile liked this post.
+        """
+        return Like.objects.filter(post=self, profile=profile).exists()
+
 
 class Photo(models.Model):
     """
     Represents an image associated with a Post.
-
-    Fields:
-        post: foreign key to the Post this photo belongs to.
-        image_url: URL to an image hosted on the public web. (kept for older data)
-        image_file: uploaded image stored in media/ directory.
-        timestamp: time the photo was created/saved.
     """
 
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-
-    # keep for backwards-compatibility
     image_url = models.URLField(blank=True)
-
-    # Task 1: local upload support
     image_file = models.ImageField(upload_to="mini_insta/", blank=True, null=True)
-
     timestamp = models.DateTimeField(default=timezone.now)
 
     def __str__(self) -> str:
@@ -174,8 +168,6 @@ class Photo(models.Model):
             return self.image_file.url
         return ""
 
-
-# ---------------- Task 4: Follow / Comment / Like models ----------------
 
 class Follow(models.Model):
     """

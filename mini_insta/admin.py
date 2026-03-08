@@ -14,7 +14,7 @@ class ProfileAdmin(admin.ModelAdmin):
     """
     Admin configuration for Profile model.
     """
-    list_display = ("username", "display_name", "join_date")
+    list_display = ("username", "display_name", "user", "join_date")
 
 
 @admin.register(Post)

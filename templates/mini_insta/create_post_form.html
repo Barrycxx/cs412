@@ -12,7 +12,7 @@ Form page to create a Post for one Profile.
 <h2 style="margin-top: 6px;">@{{ profile.username }}: Create a Post</h2>
 
 <form method="POST"
-      action="{% url 'mini_insta:create_post' profile.pk %}"
+      action="{% url 'mini_insta:create_post' %}"
       enctype="multipart/form-data"
       style="margin-top: 18px;">
   {% csrf_token %}
@@ -40,7 +40,7 @@ Form page to create a Post for one Profile.
     Post
   </button>
 
-  <a href="{% url 'mini_insta:show_profile' profile.pk %}"
+  <a href="{% url 'mini_insta:profile' %}"
      style="margin-left: 12px; text-decoration: none; color: #0095f6; font-weight: 600;">
     Cancel
   </a>

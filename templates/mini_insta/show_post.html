@@ -20,6 +20,22 @@ Displays one Post and all Photos for that post.
     <strong>{{ post.get_num_likes }}</strong> likes
   </div>
 
+  {% if user.is_authenticated and not is_own_post %}
+    <div style="margin-bottom: 14px;">
+      {% if already_liked %}
+        <a href="{% url 'mini_insta:delete_like' post.pk %}"
+           style="text-decoration:none; color:#ed4956; font-weight:600;">
+          Unlike
+        </a>
+      {% else %}
+        <a href="{% url 'mini_insta:like_post' post.pk %}"
+           style="text-decoration:none; color:#0095f6; font-weight:600;">
+          Like
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+
   <div style="margin-bottom: 14px;">
     <strong>Caption:</strong>
     <div style="margin-top: 6px;">{{ post.caption }}</div>
@@ -60,15 +76,17 @@ Displays one Post and all Photos for that post.
       ← Back to profile
     </a>
 
-    <a href="{% url 'mini_insta:update_post' post.pk %}"
-       style="margin-left: 14px; text-decoration: none; color: #0095f6; font-weight: 600;">
-      Update
-    </a>
+    {% if user.is_authenticated and is_own_post %}
+      <a href="{% url 'mini_insta:update_post' post.pk %}"
+         style="margin-left: 14px; text-decoration: none; color: #0095f6; font-weight: 600;">
+        Update
+      </a>
 
-    <a href="{% url 'mini_insta:delete_post' post.pk %}"
-       style="margin-left: 14px; text-decoration: none; color: #ed4956; font-weight: 700;">
-      Delete
-    </a>
+      <a href="{% url 'mini_insta:delete_post' post.pk %}"
+         style="margin-left: 14px; text-decoration: none; color: #ed4956; font-weight: 700;">
+        Delete
+      </a>
+    {% endif %}
   </div>
 </div>
 

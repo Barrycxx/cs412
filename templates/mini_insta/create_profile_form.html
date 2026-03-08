@@ -1,0 +1,29 @@
+<!--
+mini_insta/templates/mini_insta/create_profile_form.html
+Xinxu Chen (chenxin@bu.edu)
+
+Create profile page with user registration form.
+-->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-top: 6px;">Create Profile</h2>
+
+<form method="POST" style="margin-top: 18px;">
+  {% csrf_token %}
+
+  <h3>User Account</h3>
+  {{ user_form.as_p }}
+
+  <h3>Profile</h3>
+  {{ form.as_p }}
+
+  <button type="submit"
+          style="padding: 10px 18px; border: 0; border-radius: 10px; background: #0095f6; color: white; font-weight: 600;">
+    Create Profile
+  </button>
+</form>
+
+{% endblock %}

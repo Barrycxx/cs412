@@ -11,9 +11,8 @@ Displays search results for profiles and posts.
 
 <h2 style="margin-top: 6px;">Search Results</h2>
 
-<!-- Search box (kept on results page so user can search again) -->
 <form method="GET"
-      action="{% url 'mini_insta:search' profile.pk %}"
+      action="{% url 'mini_insta:search' %}"
       style="margin: 18px 0 24px 0;">
 
   <input type="text"
@@ -31,7 +30,6 @@ Displays search results for profiles and posts.
 
 <hr style="margin-bottom: 26px;">
 
-<!-- Profiles results -->
 <h3>Profiles</h3>
 
 {% if profiles %}
@@ -50,7 +48,6 @@ Displays search results for profiles and posts.
 
 <hr style="margin: 26px 0;">
 
-<!-- Posts results -->
 <h3>Posts</h3>
 
 {% if posts %}
@@ -73,10 +70,9 @@ Displays search results for profiles and posts.
       <p style="margin: 6px 0;">{{ post.caption }}</p>
 
       <p style="color:#666; font-size:14px;">
-        {{ post.get_all_likes|length }} likes
+        {{ post.get_num_likes }} likes
       </p>
 
-      <!-- comments -->
       {% for c in post.get_all_comments %}
         <p style="font-size:14px;">
           <strong>{{ c.profile.username }}</strong>: {{ c.text }}

@@ -1,0 +1,21 @@
+<!--
+mini_insta/templates/mini_insta/logged_out.html
+Xinxu Chen (chenxin@bu.edu)
+
+Logged out page.
+-->
+
+{% extends "mini_insta/base.html" %}
+
+{% block content %}
+
+<h2 style="margin-top: 6px;">You have logged out.</h2>
+
+<p style="margin-top: 12px;">Your session has ended successfully.</p>
+
+<a href="{% url 'mini_insta:login' %}"
+   style="text-decoration:none; color:#0095f6; font-weight:600;">
+  Login again
+</a>
+
+{% endblock %}
