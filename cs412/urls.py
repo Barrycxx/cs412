@@ -1,3 +1,10 @@
+"""
+urls.py
+Xinxu Chen (chenxin@bu.edu)
+
+Main URL configuration for the project.
+"""
+
 from django.contrib import admin
 from django.urls import path, include
 
@@ -6,9 +13,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('quotes.urls')),
+    path('', include('voter_analytics.urls')),
+    path('quotes/', include('quotes.urls')),
     path('restaurant/', include('restaurant.urls')),
-    path("mini_insta/", include("mini_insta.urls")),
+    path('mini_insta/', include('mini_insta.urls')),
 ]
 
 if settings.DEBUG:
