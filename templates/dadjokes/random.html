@@ -1,0 +1,44 @@
+<!--
+random.html
+Xinxu Chen (chenxin@bu.edu)
+
+Shows one random joke and one random picture.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Dad Joke</title>
+</head>
+<body>
+    <h1>Random Dad Joke</h1>
+
+    {% if joke %}
+        <h2>Joke</h2>
+        <p>{{ joke.joke_text }}</p>
+        <p>Contributor: {{ joke.contributor }}</p>
+        <p>Created: {{ joke.created_at }}</p>
+    {% else %}
+        <p>No jokes found.</p>
+    {% endif %}
+
+    <hr>
+
+    {% if picture %}
+        <h2>Picture</h2>
+        <img src="{{ picture.image_url }}" alt="Random picture" width="400">
+        <p>Contributor: {{ picture.contributor }}</p>
+        <p>Created: {{ picture.created_at }}</p>
+    {% else %}
+        <p>No pictures found.</p>
+    {% endif %}
+
+    <hr>
+
+    <p>
+        <a href="/random">Random</a> |
+        <a href="/jokes">All Jokes</a> |
+        <a href="/pictures">All Pictures</a>
+    </p>
+</body>
+</html>

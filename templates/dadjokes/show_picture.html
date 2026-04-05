@@ -1,0 +1,23 @@
+<!--
+show_picture.html
+Xinxu Chen (chenxin@bu.edu)
+
+Shows one picture in the dadjokes app.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Picture</title>
+</head>
+<body>
+    <h1>Picture</h1>
+
+    <img src="{{ picture.image_url }}" alt="Picture" width="400">
+    <p>Contributor: {{ picture.contributor }}</p>
+    <p>Created: {{ picture.created_at }}</p>
+
+    <p><a href="/pictures">Back to All Pictures</a></p>
+    <p><a href="/">Back to Random Page</a></p>
+</body>
+</html>

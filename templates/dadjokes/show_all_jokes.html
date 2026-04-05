@@ -1,0 +1,31 @@
+<!--
+show_all_jokes.html
+Xinxu Chen (chenxin@bu.edu)
+
+Shows all jokes in the dadjokes app.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Jokes</title>
+</head>
+<body>
+    <h1>All Jokes</h1>
+
+    {% if jokes %}
+        <ul>
+            {% for joke in jokes %}
+                <li>
+                    <a href="/joke/{{ joke.pk }}">{{ joke.joke_text }}</a>
+                    - {{ joke.contributor }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No jokes found.</p>
+    {% endif %}
+
+    <p><a href="/">Back to Random Page</a></p>
+</body>
+</html>

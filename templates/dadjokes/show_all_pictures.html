@@ -1,0 +1,33 @@
+<!--
+show_all_pictures.html
+Xinxu Chen (chenxin@bu.edu)
+
+Shows all pictures in the dadjokes app.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Pictures</title>
+</head>
+<body>
+    <h1>All Pictures</h1>
+
+    {% if pictures %}
+        {% for picture in pictures %}
+            <div>
+                <p><strong>ID:</strong> {{ picture.pk }}</p>
+                <p><strong>Contributor:</strong> {{ picture.contributor }}</p>
+                <p><strong>URL:</strong> {{ picture.image_url }}</p>
+                <img src="{{ picture.image_url }}" alt="Picture" width="300">
+                <p><a href="/picture/{{ picture.pk }}">View This Picture</a></p>
+            </div>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>No pictures found.</p>
+    {% endif %}
+
+    <p><a href="/">Back to Random Page</a></p>
+</body>
+</html>

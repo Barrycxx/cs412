@@ -1,0 +1,30 @@
+<!--
+show_joke.html
+Xinxu Chen (chenxin@bu.edu)
+
+Shows one joke in the dadjokes app.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>One Joke</title>
+</head>
+<body>
+    <h1>One Joke</h1>
+
+    {% if joke %}
+        <p><strong>ID:</strong> {{ joke.pk }}</p>
+        <p><strong>Joke:</strong> {{ joke.joke_text }}</p>
+        <p><strong>Contributor:</strong> {{ joke.contributor }}</p>
+        <p><strong>Created:</strong> {{ joke.created_at }}</p>
+    {% else %}
+        <p>No joke found.</p>
+    {% endif %}
+
+    <hr>
+
+    <p><a href="/jokes">Back to All Jokes</a></p>
+    <p><a href="/">Back to Random Page</a></p>
+</body>
+</html>
