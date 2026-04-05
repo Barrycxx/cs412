@@ -8,6 +8,8 @@ Defines the URL patterns for the dadjokes app.
 from django.urls import path
 from . import views
 
+app_name = 'dadjokes'
+
 urlpatterns = [
     path('', views.show_random, name='show_random'),
     path('random', views.show_random, name='random'),

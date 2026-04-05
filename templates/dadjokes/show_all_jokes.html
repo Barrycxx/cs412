@@ -17,7 +17,7 @@ Shows all jokes in the dadjokes app.
         <ul>
             {% for joke in jokes %}
                 <li>
-                   <a href="{% url 'show_joke' joke.pk %}">{{ joke.joke_text }}</a>
+                    <a href="/dadjokes/joke/{{ joke.pk }}">{{ joke.joke_text }}</a>
                     - {{ joke.contributor }}
                 </li>
             {% endfor %}
@@ -26,6 +26,6 @@ Shows all jokes in the dadjokes app.
         <p>No jokes found.</p>
     {% endif %}
 
-    <p><a href="{% url 'show_random' %}">Back to Random Page</a></p>
+    <p><a href="/dadjokes/">Back to Random Page</a></p>
 </body>
 </html>
