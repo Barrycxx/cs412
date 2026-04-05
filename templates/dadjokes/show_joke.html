@@ -24,7 +24,7 @@ Shows one joke in the dadjokes app.
 
     <hr>
 
-    <p><a href="/dadjokes/jokes">Back to All Jokes</a></p>
-    <p><a href="/dadjokes/">Back to Random Page</a></p>
+    <p><a href="{{ request.META.SCRIPT_NAME }}/dadjokes/jokes">Back to All Jokes</a></p>
+    <p><a href="{{ request.META.SCRIPT_NAME }}/dadjokes/">Back to Random Page</a></p>
 </body>
 </html>

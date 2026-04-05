@@ -17,7 +17,7 @@ Shows one picture in the dadjokes app.
     <p>Contributor: {{ picture.contributor }}</p>
     <p>Created: {{ picture.created_at }}</p>
 
-    <p><a href="/dadjokes/pictures">Back to All Pictures</a></p>
-    <p><a href="/dadjokes/">Back to Random Page</a></p>
+    <p><a href="{{ request.META.SCRIPT_NAME }}/dadjokes/pictures">Back to All Pictures</a></p>
+    <p><a href="{{ request.META.SCRIPT_NAME }}/dadjokes/">Back to Random Page</a></p>
 </body>
 </html>

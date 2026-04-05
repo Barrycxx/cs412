@@ -20,7 +20,7 @@ Shows all pictures in the dadjokes app.
                 <p><strong>Contributor:</strong> {{ picture.contributor }}</p>
                 <p><strong>URL:</strong> {{ picture.image_url }}</p>
                 <img src="{{ picture.image_url }}" alt="Picture" width="300">
-                <p><a href="/dadjokes/picture/{{ picture.pk }}">View This Picture</a></p>
+                <p><a href="{{ request.META.SCRIPT_NAME }}/dadjokes/picture/{{ picture.pk }}">View This Picture</a></p>
             </div>
             <hr>
         {% endfor %}
@@ -28,6 +28,6 @@ Shows all pictures in the dadjokes app.
         <p>No pictures found.</p>
     {% endif %}
 
-    <p><a href="/dadjokes/">Back to Random Page</a></p>
+    <p><a href="{{ request.META.SCRIPT_NAME }}/dadjokes/">Back to Random Page</a></p>
 </body>
 </html>
