@@ -15,6 +15,10 @@ from django.utils import timezone
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import ProfileSerializer, PostSerializer, CreatePostSerializer
 
 from .models import Profile, Post, Photo, Follow, Like
 from .forms import CreatePostForm, UpdatePostForm, UpdateProfileForm, CreateProfileForm
@@ -348,3 +352,61 @@ class DeleteLikePostView(MiniInstaLoginRequiredMixin, View):
 
 class LogoutConfirmationView(TemplateView):
     template_name = "mini_insta/logged_out.html"
+
+class APIProfileListView(generics.ListAPIView):
+    """
+    Returns all profiles.
+    """
+    queryset = Profile.objects.all().order_by("username")
+    serializer_class = ProfileSerializer
+
+
+class APIProfileDetailView(generics.RetrieveAPIView):
+    """
+    Returns one profile by id.
+    """
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+
+class APIProfilePostsView(generics.ListAPIView):
+    """
+    Returns all posts for one profile.
+    """
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        profile = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        return profile.get_all_posts()
+
+
+class APIProfileFeedView(generics.ListAPIView):
+    """
+    Returns the feed for one profile.
+    """
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        profile = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        return profile.get_post_feed()
+
+
+class APICreatePostView(generics.CreateAPIView):
+    """
+    Creates a post for one profile.
+    """
+    serializer_class = CreatePostSerializer
+
+    def create(self, request, *args, **kwargs):
+        profile = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            post = Post.objects.create(
+                profile=profile,
+                caption=serializer.validated_data.get("caption", "")
+            )
+            output_serializer = PostSerializer(post)
+            return Response(output_serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
