@@ -12,14 +12,19 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django.utils import timezone
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from rest_framework import generics
-from rest_framework.response import Response
-from rest_framework import status
-from .serializers import ProfileSerializer, PostSerializer, CreatePostSerializer
 
+from rest_framework import generics, status
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.exceptions import PermissionDenied
+
+from .serializers import ProfileSerializer, PostSerializer, CreatePostSerializer
 from .models import Profile, Post, Photo, Follow, Like
 from .forms import CreatePostForm, UpdatePostForm, UpdateProfileForm, CreateProfileForm
 
@@ -353,52 +358,124 @@ class DeleteLikePostView(MiniInstaLoginRequiredMixin, View):
 class LogoutConfirmationView(TemplateView):
     template_name = "mini_insta/logged_out.html"
 
+
+class APILoginView(APIView):
+    """
+    Handles API login and returns an auth token plus the profile id.
+    """
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        username = request.data.get("username", "").strip()
+        password = request.data.get("password", "")
+
+        if username == "" or password == "":
+            return Response(
+                {"error": "Username and password are required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is None:
+            return Response(
+                {"error": "Invalid username or password."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        profile = Profile.objects.filter(user=user).first()
+
+        if profile is None:
+            return Response(
+                {"error": "No profile found for this user."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        token, _ = Token.objects.get_or_create(user=user)
+
+        return Response(
+            {
+                "token": token.key,
+                "profile_id": profile.pk,
+                "username": profile.username,
+                "display_name": profile.display_name,
+            },
+            status=status.HTTP_200_OK
+        )
+
+
+class AuthenticatedProfileAPIMixin:
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_authenticated_profile(self):
+        profile = Profile.objects.filter(user=self.request.user).first()
+
+        if profile is None:
+            raise PermissionDenied("No profile found for this user.")
+
+        return profile
+
+    def get_requested_profile(self):
+        profile = self.get_authenticated_profile()
+
+        if int(self.kwargs["pk"]) != profile.pk:
+            raise PermissionDenied("You can only access your own profile data.")
+
+        return profile
+
+
 class APIProfileListView(generics.ListAPIView):
     """
-    Returns all profiles.
+    Returns all profiles for an authenticated user.
     """
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Profile.objects.all().order_by("username")
     serializer_class = ProfileSerializer
 
 
-class APIProfileDetailView(generics.RetrieveAPIView):
+class APIProfileDetailView(AuthenticatedProfileAPIMixin, generics.RetrieveAPIView):
     """
     Returns one profile by id.
     """
-    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
 
+    def get_object(self):
+        return self.get_requested_profile()
 
-class APIProfilePostsView(generics.ListAPIView):
+
+class APIProfilePostsView(AuthenticatedProfileAPIMixin, generics.ListAPIView):
     """
     Returns all posts for one profile.
     """
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        profile = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        profile = self.get_requested_profile()
         return profile.get_all_posts()
 
 
-class APIProfileFeedView(generics.ListAPIView):
+class APIProfileFeedView(AuthenticatedProfileAPIMixin, generics.ListAPIView):
     """
     Returns the feed for one profile.
     """
     serializer_class = PostSerializer
 
     def get_queryset(self):
-        profile = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        profile = self.get_requested_profile()
         return profile.get_post_feed()
 
 
-class APICreatePostView(generics.CreateAPIView):
+class APICreatePostView(AuthenticatedProfileAPIMixin, generics.CreateAPIView):
     """
     Creates a post for one profile.
     """
     serializer_class = CreatePostSerializer
 
     def create(self, request, *args, **kwargs):
-        profile = get_object_or_404(Profile, pk=self.kwargs["pk"])
+        profile = self.get_requested_profile()
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
@@ -409,4 +486,4 @@ class APICreatePostView(generics.CreateAPIView):
             output_serializer = PostSerializer(post)
             return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

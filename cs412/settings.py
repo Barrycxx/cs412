@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'voter_analytics',
     'dadjokes',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -108,3 +109,12 @@ if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
     MEDIA_URL = '/chenxin/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
