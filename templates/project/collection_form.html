@@ -1,0 +1,20 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">Add Collection Record</h2>
+<p class="section-intro">
+    Create a new collection entry for a user and a game.
+</p>
+
+<div class="form-box">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="action-row">
+            <button type="submit">Save Collection</button>
+            <a class="btn btn-secondary" href="{% url 'project:collection_list' %}">Back to Collections</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

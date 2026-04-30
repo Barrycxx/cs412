@@ -1,0 +1,53 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">All Games</h2>
+<p class="section-intro">
+    Browse the game library and use the search tools below to filter by title,
+    developer, platform, or genre.
+</p>
+
+<div class="search-box">
+    <form method="get">
+        <p>
+            <label><strong>Search by title or developer</strong></label><br>
+            <input type="text" name="q" value="{{ q }}">
+        </p>
+
+        <p>
+            <label><strong>Filter by platform</strong></label><br>
+            <input type="text" name="platform" value="{{ platform }}">
+        </p>
+
+        <p>
+            <label><strong>Filter by genre</strong></label><br>
+            <input type="text" name="genre" value="{{ genre_search }}">
+        </p>
+
+        <div class="action-row">
+            <button type="submit">Search</button>
+            <a class="btn btn-secondary" href="{% url 'project:game_list' %}">Clear</a>
+        </div>
+    </form>
+</div>
+
+<div class="card-list">
+    {% for game in games %}
+    <div class="card">
+        {% if game.cover_image %}
+        <img src="{{ game.cover_image.url }}" alt="{{ game.title }}" class="game-card-image">
+        {% endif %}
+
+        <h3>
+            <a href="{% url 'project:game_detail' game.pk %}">{{ game.title }}</a>
+        </h3>
+        <p><strong>Developer:</strong> {{ game.developer }}</p>
+        <p><strong>Platform:</strong> {{ game.platform }}</p>
+        <p><strong>Release Date:</strong> {{ game.release_date }}</p>
+        <span class="tag">{{ game.genre.name }}</span>
+    </div>
+    {% empty %}
+    <p class="empty-message">No matching games found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

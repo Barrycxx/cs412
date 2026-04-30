@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'dadjokes',
     'rest_framework',
     'rest_framework.authtoken',
+    'project',
 ]
 
 MIDDLEWARE = [

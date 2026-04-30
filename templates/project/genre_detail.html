@@ -1,0 +1,29 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">{{ genre.name }}</h2>
+<p class="section-intro">
+    View details for this genre and the games connected to it.
+</p>
+
+<div class="detail-box">
+    <p><strong>Description:</strong> {{ genre.description }}</p>
+
+    <hr class="soft-divider">
+
+    <h3>Games in this Genre</h3>
+    <ul class="list-clean">
+        {% for game in genre.game_set.all %}
+        <li>
+            <a href="{% url 'project:game_detail' game.pk %}">{{ game.title }}</a>
+        </li>
+        {% empty %}
+        <li class="empty-message">No games in this genre yet.</li>
+        {% endfor %}
+    </ul>
+
+    <div class="action-row">
+        <a class="btn btn-secondary" href="{% url 'project:genre_list' %}">Back to Genres</a>
+    </div>
+</div>
+{% endblock %}

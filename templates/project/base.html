@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Game Collection and Review Tracker</title>
+    <link rel="stylesheet" href="{% static 'project/styles.css' %}">
+</head>
+<body>
+    <div class="site-shell">
+        <header class="hero">
+            <div class="hero-content">
+                <p class="hero-eyebrow">Final Project</p>
+                <h1>Video Game Collection and Review Tracker</h1>
+                <p class="hero-subtitle">Games. Reviews. Collections.</p>
+            </div>
+        </header>
+
+        <nav class="top-nav">
+            <a href="{% url 'project:home' %}">Home</a>
+            <a href="{% url 'project:game_list' %}">Games</a>
+            <a href="{% url 'project:genre_list' %}">Genres</a>
+            <a href="{% url 'project:profile_list' %}">User Profiles</a>
+            <a href="{% url 'project:review_list' %}">Reviews</a>
+            <a href="{% url 'project:collection_list' %}">Collections</a>
+        </nav>
+
+        <main class="content-panel">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            <p>Video Game Collection and Review Tracker · CS412 Final Project</p>
+        </footer>
+    </div>
+</body>
+</html>

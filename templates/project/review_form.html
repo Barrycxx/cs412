@@ -1,0 +1,20 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">Review Form</h2>
+<p class="section-intro">
+    Add a new review or update an existing one.
+</p>
+
+<div class="form-box">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div class="action-row">
+            <button type="submit">Save Review</button>
+            <a class="btn btn-secondary" href="{% url 'project:review_list' %}">Back to Reviews</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

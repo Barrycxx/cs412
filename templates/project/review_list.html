@@ -1,0 +1,34 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">All Reviews</h2>
+<p class="section-intro">
+    Read what users think about each game, or add your own review.
+</p>
+
+<div class="action-row">
+    <a class="btn" href="{% url 'project:review_create' %}">Add New Review</a>
+</div>
+
+<div class="card-list">
+    {% for review in reviews %}
+    <div class="card">
+        <h3>
+            <a href="{% url 'project:review_detail' review.pk %}">
+                {{ review.game.title }}
+            </a>
+        </h3>
+        <p><strong>User:</strong> {{ review.user_profile.username }}</p>
+        <span class="rating-badge">{{ review.rating }}/10</span>
+        <p>{{ review.comment|truncatewords:14 }}</p>
+
+        <div class="inline-links">
+            <a href="{% url 'project:review_update' review.pk %}">Edit</a>
+            <a href="{% url 'project:review_delete' review.pk %}">Delete</a>
+        </div>
+    </div>
+    {% empty %}
+    <p class="empty-message">No reviews are available yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

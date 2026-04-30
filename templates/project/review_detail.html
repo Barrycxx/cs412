@@ -1,0 +1,34 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">Review Details</h2>
+<p class="section-intro">
+    Detailed information for a single review.
+</p>
+
+<div class="detail-box">
+    <p>
+        <strong>User:</strong>
+        <a href="{% url 'project:profile_detail' review.user_profile.pk %}">
+            {{ review.user_profile.username }}
+        </a>
+    </p>
+
+    <p>
+        <strong>Game:</strong>
+        <a href="{% url 'project:game_detail' review.game.pk %}">
+            {{ review.game.title }}
+        </a>
+    </p>
+
+    <p><strong>Rating:</strong> {{ review.rating }}/10</p>
+    <p><strong>Comment:</strong> {{ review.comment }}</p>
+    <p><strong>Created At:</strong> {{ review.created_at }}</p>
+
+    <div class="action-row">
+        <a class="btn" href="{% url 'project:review_update' review.pk %}">Edit Review</a>
+        <a class="btn btn-secondary" href="{% url 'project:review_delete' review.pk %}">Delete Review</a>
+        <a class="btn btn-secondary" href="{% url 'project:review_list' %}">Back to Reviews</a>
+    </div>
+</div>
+{% endblock %}

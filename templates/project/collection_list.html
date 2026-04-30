@@ -1,0 +1,37 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">All Collection Records</h2>
+<p class="section-intro">
+    View each user’s game collection and current playing status.
+</p>
+
+<div class="action-row">
+    <a class="btn" href="{% url 'project:collection_create' %}">Add Collection Record</a>
+</div>
+
+<div class="card-list">
+    {% for collection in collections %}
+    <div class="card">
+        <h3>
+            <a href="{% url 'project:collection_detail' collection.pk %}">
+                {{ collection.game.title }}
+            </a>
+        </h3>
+        <p><strong>User:</strong> {{ collection.user_profile.username }}</p>
+
+        {% if collection.status == 'playing' %}
+            <span class="status-pill status-playing">playing</span>
+        {% elif collection.status == 'completed' %}
+            <span class="status-pill status-completed">completed</span>
+        {% elif collection.status == 'wishlist' %}
+            <span class="status-pill status-wishlist">wishlist</span>
+        {% else %}
+            <span class="status-pill">{{ collection.status }}</span>
+        {% endif %}
+    </div>
+    {% empty %}
+    <p class="empty-message">No collection records are available yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

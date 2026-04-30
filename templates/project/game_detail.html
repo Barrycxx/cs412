@@ -1,0 +1,29 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">{{ game.title }}</h2>
+<p class="section-intro">
+    View the main information for this game.
+</p>
+
+<div class="detail-box">
+    <p><strong>Developer:</strong> {{ game.developer }}</p>
+    <p><strong>Release Date:</strong> {{ game.release_date }}</p>
+    <p><strong>Platform:</strong> {{ game.platform }}</p>
+    <p>
+        <strong>Genre:</strong>
+        <a href="{% url 'project:genre_detail' game.genre.pk %}">{{ game.genre.name }}</a>
+    </p>
+
+    {% if game.cover_image %}
+    <p><strong>Cover Image:</strong></p>
+    <p>
+        <img src="{{ game.cover_image.url }}" alt="{{ game.title }}" style="max-width: 280px; border-radius: 20px;">
+    </p>
+    {% endif %}
+
+    <div class="action-row">
+        <a class="btn btn-secondary" href="{% url 'project:game_list' %}">Back to Games</a>
+    </div>
+</div>
+{% endblock %}

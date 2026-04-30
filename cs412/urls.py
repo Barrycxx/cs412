@@ -16,7 +16,8 @@ urlpatterns = [
     path('', include('quotes.urls')),
     path('restaurant/', include('restaurant.urls')),
     path('mini_insta/', include('mini_insta.urls')),
-   path('dadjokes/', include(('dadjokes.urls', 'dadjokes'), namespace='dadjokes')),
+    path('dadjokes/', include(('dadjokes.urls', 'dadjokes'), namespace='dadjokes')),
+    path('project/', include('project.urls')),
 ]
 
 if settings.DEBUG:

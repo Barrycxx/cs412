@@ -1,0 +1,22 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">All User Profiles</h2>
+<p class="section-intro">
+    Browse the users who created reviews and collection records.
+</p>
+
+<div class="card-list">
+    {% for profile in profiles %}
+    <div class="card">
+        <h3>
+            <a href="{% url 'project:profile_detail' profile.pk %}">{{ profile.username }}</a>
+        </h3>
+        <p><strong>Email:</strong> {{ profile.email }}</p>
+        <p>{{ profile.bio }}</p>
+    </div>
+    {% empty %}
+    <p class="empty-message">No user profiles are available yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

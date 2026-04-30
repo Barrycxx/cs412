@@ -1,0 +1,47 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">{{ profile.username }}</h2>
+<p class="section-intro">
+    View this user's profile information, reviews, and collection records.
+</p>
+
+<div class="detail-box">
+    <p><strong>Email:</strong> {{ profile.email }}</p>
+    <p><strong>Bio:</strong> {{ profile.bio }}</p>
+
+    <hr class="soft-divider">
+
+    <h3>Reviews by this User</h3>
+    <ul class="list-clean">
+        {% for review in profile.review_set.all %}
+        <li>
+            <a href="{% url 'project:review_detail' review.pk %}">
+                {{ review.game.title }} - Rating: {{ review.rating }}/10
+            </a>
+        </li>
+        {% empty %}
+        <li class="empty-message">No reviews yet.</li>
+        {% endfor %}
+    </ul>
+
+    <hr class="soft-divider">
+
+    <h3>Collection Records</h3>
+    <ul class="list-clean">
+        {% for item in profile.collection_set.all %}
+        <li>
+            <a href="{% url 'project:collection_detail' item.pk %}">
+                {{ item.game.title }} - {{ item.status }}
+            </a>
+        </li>
+        {% empty %}
+        <li class="empty-message">No collection records yet.</li>
+        {% endfor %}
+    </ul>
+
+    <div class="action-row">
+        <a class="btn btn-secondary" href="{% url 'project:profile_list' %}">Back to User Profiles</a>
+    </div>
+</div>
+{% endblock %}

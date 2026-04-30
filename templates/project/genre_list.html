@@ -1,0 +1,21 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">All Genres</h2>
+<p class="section-intro">
+    Explore the different genres used in the game collection.
+</p>
+
+<div class="card-list">
+    {% for genre in genres %}
+    <div class="card">
+        <h3>
+            <a href="{% url 'project:genre_detail' genre.pk %}">{{ genre.name }}</a>
+        </h3>
+        <p>{{ genre.description }}</p>
+    </div>
+    {% empty %}
+    <p class="empty-message">No genres are available yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

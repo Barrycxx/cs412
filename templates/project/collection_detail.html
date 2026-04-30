@@ -1,0 +1,30 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h2 class="page-title">Collection Record Details</h2>
+<p class="section-intro">
+    View the details for a single collection entry.
+</p>
+
+<div class="detail-box">
+    <p>
+        <strong>User:</strong>
+        <a href="{% url 'project:profile_detail' collection.user_profile.pk %}">
+            {{ collection.user_profile.username }}
+        </a>
+    </p>
+
+    <p>
+        <strong>Game:</strong>
+        <a href="{% url 'project:game_detail' collection.game.pk %}">
+            {{ collection.game.title }}
+        </a>
+    </p>
+
+    <p><strong>Status:</strong> {{ collection.status }}</p>
+
+    <div class="action-row">
+        <a class="btn btn-secondary" href="{% url 'project:collection_list' %}">Back to Collections</a>
+    </div>
+</div>
+{% endblock %}
